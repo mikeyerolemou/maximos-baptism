@@ -1,54 +1,246 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Βάπτιση Μαξίμου</title>
-<style>
-   body {
-     margin: 0;
-     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-     background: #f8f9fa;
-     text-align: center;
-     padding: 40px 20px;
-   }
-   h1 {
-     font-size: 28px;
-     margin-bottom: 10px;
-   }
-   p {
-     color: #555;
-     margin-bottom: 30px;
-   }
-   .button {
-     display: block;
-     width: 100%;
-     max-width: 300px;
-     margin: 15px auto;
-     padding: 15px;
-     text-decoration: none;
-     background: #4da6ff;
-     color: white;
-     border-radius: 10px;
-     font-size: 16px;
-     font-weight: 500;
-   }
-   .button:hover {
-     opacity: 0.9;
-   }
-</style>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Βάπτιση του Μάξιμου</title>
+
+   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+   <style>
+      :root{
+         --ink:#2c3e50;
+         --muted:#7f8c8d;
+         --card:#ffffff;
+         --soft:#f2f6fb;
+         --soft2:#e6eef7;
+         --accent:#4da6ff;
+         --accent2:#3399ff;
+         --shadow: 0 15px 40px rgba(0,0,0,0.08);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+         margin: 0;
+         font-family: 'Inter', sans-serif;
+         min-height: 100vh;
+         display: grid;
+         place-items: center;
+         color: var(--ink);
+         background: radial-gradient(1200px 800px at 20% 10%, rgba(77,166,255,.25), transparent 60%),
+         radial-gradient(900px 700px at 90% 80%, rgba(153,204,255,.25), transparent 60%),
+         linear-gradient(135deg, #e6f2ff, #ffffff);
+         overflow: hidden;
+      }
+
+      /* subtle animated glow blobs */
+      .glow {
+         position: absolute;
+         inset: -30%;
+         pointer-events: none;
+         filter: blur(30px);
+         opacity: .55;
+         transform: translateZ(0);
+         animation: drift 14s ease-in-out infinite;
+         background:
+                 radial-gradient(closest-side at 30% 40%, rgba(77,166,255,.25), transparent 65%),
+                 radial-gradient(closest-side at 70% 60%, rgba(180,220,255,.25), transparent 65%);
+      }
+
+      @keyframes drift {
+         0%   { transform: translate(-2%, -1%) scale(1); }
+         50%  { transform: translate( 2%,  1%) scale(1.05); }
+         100% { transform: translate(-2%, -1%) scale(1); }
+      }
+
+      .card {
+         position: relative;
+         background: var(--card);
+         width: 92%;
+         max-width: 420px;
+         padding: 42px 30px;
+         border-radius: 22px;
+         box-shadow: var(--shadow);
+         text-align: center;
+         isolation: isolate;
+
+         /* entrance */
+         opacity: 0;
+         transform: translateY(14px) scale(.98);
+         animation: enter .8s cubic-bezier(.2,.8,.2,1) .05s forwards;
+      }
+
+      @keyframes enter {
+         to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      /* decorative corner “leaf/dove” */
+      .card::before, .card::after{
+         content:"";
+         position:absolute;
+         width:120px;
+         height:120px;
+         border-radius: 999px;
+         background: radial-gradient(circle at 30% 30%, rgba(77,166,255,.20), transparent 70%);
+         z-index:-1;
+      }
+      .card::before{ top:-30px; left:-30px; transform: rotate(12deg); }
+      .card::after{ bottom:-35px; right:-35px; transform: rotate(-18deg); }
+
+      h1 {
+         font-family: 'Playfair Display', serif;
+         font-size: 28px;
+         margin: 0 0 10px;
+         color: var(--ink);
+         letter-spacing: .2px;
+      }
+
+      .date {
+         font-size: 15px;
+         color: var(--muted);
+         margin-bottom: 26px;
+      }
+
+      .badge {
+         display:inline-flex;
+         gap:8px;
+         align-items:center;
+         padding: 8px 12px;
+         border-radius: 999px;
+         background: rgba(77,166,255,.10);
+         color: #1f4f7a;
+         font-size: 13px;
+         margin-bottom: 18px;
+         animation: pop .9s cubic-bezier(.2,.9,.2,1) .25s both;
+      }
+      @keyframes pop{
+         from{ transform: translateY(6px); opacity:0; }
+         to  { transform: translateY(0); opacity:1; }
+      }
+
+      .buttons { display: grid; gap: 12px; margin-top: 8px; }
+
+      .button {
+         position: relative;
+         display: block;
+         padding: 15px 14px;
+         border-radius: 14px;
+         text-decoration: none;
+         font-weight: 500;
+         font-size: 15px;
+         background: var(--soft);
+         color: var(--ink);
+         transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+         overflow: hidden;
+         will-change: transform;
+      }
+
+      .button:hover {
+         background: var(--soft2);
+         transform: translateY(-2px);
+         box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      }
+
+      .button:active { transform: translateY(0); }
+
+      .rsvp {
+         background: var(--accent);
+         color: white;
+      }
+      .rsvp:hover { background: var(--accent2); }
+
+      /* ripple */
+      .ripple {
+         position:absolute;
+         border-radius: 999px;
+         transform: scale(0);
+         animation: ripple .6s ease-out;
+         background: rgba(255,255,255,.45);
+         pointer-events:none;
+      }
+      @keyframes ripple {
+         to { transform: scale(3.2); opacity: 0; }
+      }
+
+      .footer {
+         margin-top: 26px;
+         font-size: 13px;
+         color: #95a5a6;
+         line-height: 1.45;
+      }
+
+      .mini {
+         margin-top: 10px;
+         font-size: 12px;
+         color: #97a6b1;
+      }
+
+      /* respect reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+         .glow, .card, .badge { animation: none !important; }
+         .button { transition: none !important; }
+      }
+   </style>
 </head>
+
 <body>
-<h1>Βάπτιση Μαξίμου</h1>
-<p>Σας περιμένουμε να γιορτάσουμε μαζί!</p>
-<a class="button" href="https://maps.app.goo.gl/2nZaq9yBSdZrj2Ww6" target="_blank">
-   📍 Τοποθεσία Εκκλησίας
-</a>
-<a class="button" href="https://maps.app.goo.gl/dEHMkFHMWZMkRsGK6" target="_blank">
-   🥂 Τοποθεσία Δεξίωσης
-</a>
-<a class="button" href="RSVP_LINK" target="_blank">
-   📝 Δήλωση Παρουσίας (RSVP)
-</a>
+<div class="glow" aria-hidden="true"></div>
+
+<div class="card">
+   <div class="badge">✨ Σας προσκαλούμε στη βάπτιση του γιού μας</div>
+
+   <h1>Μάξιμου</h1>
+   <div class="date">Τρίτη 14 Απριλίου 2026</div>
+
+   <div class="buttons">
+      <a class="button" href="https://maps.app.goo.gl/2nZaq9yBSdZrj2Ww6" target="_blank" rel="noopener">
+         ⛪ Εκκλησία Αγίας Μαρίνας
+      </a>
+
+      <a class="button" href="https://maps.app.goo.gl/dEHMkFHMWZMkRsGK6" target="_blank" rel="noopener">
+         🪻 Levanda Event House
+      </a>
+
+      <!-- RSVP without online form (choose ONE or keep multiple) -->
+      <a class="button rsvp" href="tel:+35799034072">
+         📞 Επιβεβαίωση με κλήση
+      </a>
+
+      <a class="button rsvp" href="sms:+35799034072?body=Γεια!%20Επιβεβαιώνω%20την%20παρουσία%20μου%20στη%20βάπτιση%20του%20Μάξιμου.%20Αριθμός ατόμων:%20">
+         💬 Επιβεβαίωση με SMS
+      </a>
+
+      <!-- WhatsApp option (uncomment if you want it instead of SMS)
+      <a class="button rsvp" href="https://wa.me/35799111222?text=Γεια!%20Επιβεβαιώνω%20την%20παρουσία%20μου%20στη%20βάπτιση%20του%20Μάξιμου.%20Ονοματεπώνυμο:%20" target="_blank" rel="noopener">
+        💚 Επιβεβαίωση στο WhatsApp
+      </a>
+      -->
+   </div>
+
+   <div class="footer">
+      Θα χαρούμε πολύ να είστε κοντά μας ❤️
+   </div>
+</div>
+
+<script>
+   // Ripple on buttons (mobile-friendly)
+   document.querySelectorAll('.button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+         // respect reduced motion
+         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+         const rect = btn.getBoundingClientRect();
+         const r = document.createElement('span');
+         r.className = 'ripple';
+         const size = Math.max(rect.width, rect.height);
+         r.style.width = r.style.height = size + 'px';
+         r.style.left = (e.clientX - rect.left - size / 2) + 'px';
+         r.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+         btn.appendChild(r);
+         r.addEventListener('animationend', () => r.remove());
+      }, { passive: true });
+   });
+</script>
 </body>
 </html>
