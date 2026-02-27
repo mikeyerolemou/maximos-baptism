@@ -96,10 +96,55 @@
          letter-spacing: .2px;
       }
 
-      .date {
-         font-size: 15px;
-         color: var(--muted);
-         margin-bottom: 26px;
+      .date{
+         display:inline-block;
+         font-size:15px;
+         color:#7f8c8d;
+         margin-bottom:26px;
+         text-decoration:none;
+      }
+
+      .add-calendar{
+         display:block;
+         font-size:13px;
+         color:#4da6ff;
+         text-decoration:none;
+         margin-top:-18px;
+         margin-bottom:25px;
+         font-weight:500;
+         transition:opacity .2s ease, transform .2s ease;
+      }
+
+      .add-calendar:hover{
+         opacity:.75;
+         transform:translateY(-1px);
+         text-decoration:underline;
+      }
+
+      .countdown{
+         display:grid;
+         grid-template-columns: repeat(4, 1fr);
+         gap:10px;
+         margin: 18px 0 26px;
+      }
+
+      .cd-item{
+         background:#f2f6fb;
+         border-radius:14px;
+         padding:10px 8px;
+      }
+
+      .cd-num{
+         font-weight:700;
+         font-size:18px;
+         color:#2c3e50;
+         line-height:1.2;
+      }
+
+      .cd-label{
+         font-size:12px;
+         color:#7f8c8d;
+         margin-top:3px;
       }
 
       .badge {
@@ -192,6 +237,14 @@
 
    <h1>Μάξιμου</h1>
    <div class="date">Τρίτη 14 Απριλίου 2026</div>
+   <a class="add-calendar" href="./baptism.ics" download>📅 Προσθήκη στο ημερολόγιο</a>
+
+   <div class="countdown" id="countdown">
+      <div class="cd-item"><div class="cd-num" id="cdDays">—</div><div class="cd-label">Ημέρες</div></div>
+      <div class="cd-item"><div class="cd-num" id="cdHours">—</div><div class="cd-label">Ώρες</div></div>
+      <div class="cd-item"><div class="cd-num" id="cdMins">—</div><div class="cd-label">Λεπτά</div></div>
+      <div class="cd-item"><div class="cd-num" id="cdSecs">—</div><div class="cd-label">Δευτ.</div></div>
+   </div>
 
    <div class="buttons">
       <a class="button" href="https://maps.app.goo.gl/2nZaq9yBSdZrj2Ww6" target="_blank" rel="noopener">
@@ -211,11 +264,6 @@
          💬 Επιβεβαίωση με SMS
       </a>
 
-      <!-- WhatsApp option (uncomment if you want it instead of SMS)
-      <a class="button rsvp" href="https://wa.me/35799111222?text=Γεια!%20Επιβεβαιώνω%20την%20παρουσία%20μου%20στη%20βάπτιση%20του%20Μάξιμου.%20Ονοματεπώνυμο:%20" target="_blank" rel="noopener">
-        💚 Επιβεβαίωση στο WhatsApp
-      </a>
-      -->
    </div>
 
    <div class="footer">
@@ -241,6 +289,44 @@
          r.addEventListener('animationend', () => r.remove());
       }, { passive: true });
    });
+
+   const target = new Date("2026-04-14T12:00:00+02:00").getTime();
+
+   const el = {
+      d: document.getElementById("cdDays"),
+      h: document.getElementById("cdHours"),
+      m: document.getElementById("cdMins"),
+      s: document.getElementById("cdSecs"),
+   };
+
+   function pad(n){ return String(n).padStart(2,"0"); }
+
+   function tick(){
+
+      if(Date.now() > target){
+         document.getElementById("countdown").innerHTML = "Σήμερα είναι η βάπτιση 🎉";
+         return;
+      }
+
+      const now = Date.now();
+      let diff = Math.max(0, target - now);
+
+      const days = Math.floor(diff / (1000*60*60*24));
+      diff -= days * (1000*60*60*24);
+      const hours = Math.floor(diff / (1000*60*60));
+      diff -= hours * (1000*60*60);
+      const mins = Math.floor(diff / (1000*60));
+      diff -= mins * (1000*60);
+      const secs = Math.floor(diff / 1000);
+
+      el.d.textContent = days;
+      el.h.textContent = pad(hours);
+      el.m.textContent = pad(mins);
+      el.s.textContent = pad(secs);
+   }
+
+   tick();
+   setInterval(tick, 1000);
 </script>
 </body>
 </html>

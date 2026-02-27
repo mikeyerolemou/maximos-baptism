@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Maximos Baptism//EN
+CALSCALE:GREGORIAN
+
+BEGIN:VEVENT
+UID:maximos-baptism-church-2026
+DTSTAMP:20260414T060000Z
+DTSTART:20260414T090000Z
+DTEND:20260414T103000Z
+SUMMARY:Βάπτιση του Μάξιμου — Εκκλησία
+DESCRIPTION:Τελετή βάπτισης
+LOCATION:Εκκλησία Αγίας Μαρίνας - Saint Marina\, M2HX+7VM\, Augoustas Theodoras\, Limassol 3035\, Cyprus
+URL:https://maps.app.goo.gl/2nZaq9yBSdZrj2Ww6
+END:VEVENT
+
+BEGIN:VEVENT
+UID:maximos-baptism-venue-2026
+DTSTAMP:20260414T060000Z
+DTSTART:20260414T103000Z
+DTEND:20260414T123000Z
+SUMMARY:Βάπτιση του Μάξιμου — Φαγητό
+DESCRIPTION:Αμέσως μετά την εκκλησία
+LOCATION:Levanda Event House
+URL:https://maps.app.goo.gl/dEHMkFHMWZMkRsGK6
+END:VEVENT
+
+END:VCALENDAR
